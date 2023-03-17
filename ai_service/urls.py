@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
     # 测试使用
-    path('polls/query/',test.query)  # 访问的是polls应用的tests文件下的querry对象
+    # path('polls/query/',test.query)  # 访问的是polls应用的tests文件下的querry对象
 ]
