@@ -16,7 +16,9 @@ class Question(models.Model):
         return self.question_text
 
     def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        # datetime对象减去timedelta对象返回的还是datetime对象
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
 # 2. 第二个表单Choice
 class Choice(models.Model):
