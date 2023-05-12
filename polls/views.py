@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-
+from django.utils import timezone
 # Create your views here.
 from django.http import HttpResponse, HttpResponseRedirect
 # 引用方式package.模块.类（或方法）
@@ -14,7 +14,7 @@ from django.core import serializers
 from django.urls import reverse
 from .models import Choice, Question
 from django.views import generic
-
+from datetime import date
 # 通用视图1
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
