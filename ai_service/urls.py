@@ -14,15 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.template.defaulttags import url
 from django.urls import include, path
+
 from polls import test
 
 urlpatterns = [
     # 函数 include() 允许引用其它 URLconfs。每当 Django 遇到 include() 时，它会截断与此项匹配的 URL 的部分，并将剩余的字符串发送到 URLconf 以供进一步处理。
 
     path('admin/', admin.site.urls),
-    path('snippets/', include('digital_twins_service.urls')),
+    path('', include('digital_twins_service.urls')),
+    # path('users/', include('digital_twins_service.urls')),
     path('polls/', include('polls.urls')),
     # 测试使用
     # path('polls/query/',test.query)  # 访问的是polls应用的tests文件下的querry对象
+    # url(r'api-auth/', include('rest_framework.urls')),
+]
+urlpatterns += [
+    path('api-auth/', include('rest_framework.urls')),
 ]

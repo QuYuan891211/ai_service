@@ -11,7 +11,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 from digital_twins_service.models import Snippet
-from digital_twins_service.serializers import SnippetSerializer
+from digital_twins_service.permissions import IsOwnerOrReadOnly
+from digital_twins_service.serializers import SnippetSerializer, UserSerializer
+from django.contrib.auth.models import User
+from rest_framework import permissions
 
 
 # Create your views here.
@@ -20,9 +23,25 @@ from digital_twins_service.serializers import SnippetSerializer
 class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
+    # 重写perform_create
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 # @csrf_exempt
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
