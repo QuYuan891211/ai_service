@@ -3,11 +3,16 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from digital_twins_service import views
 # from digital_twins_service.views import SnippetViewSet, UserViewSet, api_root
 from rest_framework import renderers
+from rest_framework.schemas import get_schema_view
 from rest_framework.routers import DefaultRouter
+
+schema_view = get_schema_view(title='Pastebin API')
 # 建路由器并注册我们的视图
 router = DefaultRouter()
 router.register(r'snippets', views.SnippetViewSet,basename="snippet")
 router.register(r'users', views.UserViewSet,basename="user")
+
+
 # snippet_list = SnippetViewSet.as_view({
 #     'get': 'list',
 #     'post': 'create'
@@ -33,6 +38,7 @@ router.register(r'users', views.UserViewSet,basename="user")
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('schema/', schema_view)
 ]
 
 # urlpatterns = format_suffix_patterns([
